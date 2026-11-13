@@ -36,13 +36,13 @@ public class AuthService {
 
         Map<String, Object> loginResultMap = new HashMap<>();
 
-        if (peerEvaluationUser.getRoles().equals("student")) {
+        if (this.hasAuthority(authentication, "ROLE_student")) {
             StudentDto studentDto = this.studentToStudentDtoConverter.convert((Student) peerEvaluationUser);
             // Create a JWT.
             String token = this.jwtProvider.createToken(authentication);
             loginResultMap.put("userInfo", studentDto);
             loginResultMap.put("token", token);
-        } else if (peerEvaluationUser.getRoles().contains("instructor")) {
+        } else if (this.hasAuthority(authentication, "ROLE_instructor")) {
             InstructorDto instructorDto = this.instructorToInstructorDtoConverter.convert((Instructor) peerEvaluationUser);
             // Create a JWT.
             String token = this.jwtProvider.createToken(authentication);
@@ -50,6 +50,12 @@ public class AuthService {
             loginResultMap.put("token", token);
         }
         return loginResultMap;
+    }
+
+    private boolean hasAuthority(Authentication authentication, String expectedAuthority) {
+        return authentication.getAuthorities().stream()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .anyMatch(expectedAuthority::equals);
     }
 
 }
