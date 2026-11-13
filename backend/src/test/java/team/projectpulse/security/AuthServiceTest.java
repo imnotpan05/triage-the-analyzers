@@ -53,7 +53,6 @@ class AuthServiceTest {
         );
 
         given(authentication.getPrincipal()).willReturn(principal);
-        given(authentication.getName()).willReturn("sally");
         given(authentication.getAuthorities()).willReturn(authorities);
         given(jwtProvider.createToken(authentication)).willReturn("token-123");
         given(studentToStudentDtoConverter.convert(student)).willReturn(studentDto);
@@ -79,7 +78,6 @@ class AuthServiceTest {
         );
 
         given(authentication.getPrincipal()).willReturn(principal);
-        given(authentication.getName()).willReturn("prof");
         given(authentication.getAuthorities()).willReturn(authorities);
         given(jwtProvider.createToken(authentication)).willReturn("token-456");
         given(instructorToInstructorDtoConverter.convert(instructor)).willReturn(instructorDto);
