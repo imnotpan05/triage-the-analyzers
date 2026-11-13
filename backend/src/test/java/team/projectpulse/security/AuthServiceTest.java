@@ -47,14 +47,14 @@ class AuthServiceTest {
         Authentication authentication = mock(Authentication.class);
         MyUserPrincipal principal = new MyUserPrincipal(student);
         StudentDto studentDto = new StudentDto(7, "sally", "Sally", "Student", "sally@example.com", true, "student admin", 3, "Intro to CS", 9, "Team 1");
-        Collection<GrantedAuthority> studentAuthorities = List.of(
+        Collection authorities = List.of(
                 new SimpleGrantedAuthority("ROLE_student"),
                 new SimpleGrantedAuthority("ROLE_admin")
         );
 
         given(authentication.getPrincipal()).willReturn(principal);
         given(authentication.getName()).willReturn("sally");
-        given(authentication.getAuthorities()).willReturn(studentAuthorities);
+        given(authentication.getAuthorities()).willReturn(authorities);
         given(jwtProvider.createToken(authentication)).willReturn("token-123");
         given(studentToStudentDtoConverter.convert(student)).willReturn(studentDto);
 
@@ -73,14 +73,14 @@ class AuthServiceTest {
         Authentication authentication = mock(Authentication.class);
         MyUserPrincipal principal = new MyUserPrincipal(instructor);
         InstructorDto instructorDto = new InstructorDto(11, "prof", "Prof", "Smith", "prof@example.com", true, "instructor admin", 2, 3);
-        Collection<GrantedAuthority> instructorAuthorities = List.of(
+        Collection authorities = List.of(
                 new SimpleGrantedAuthority("ROLE_instructor"),
                 new SimpleGrantedAuthority("ROLE_admin")
         );
 
         given(authentication.getPrincipal()).willReturn(principal);
         given(authentication.getName()).willReturn("prof");
-        given(authentication.getAuthorities()).willReturn(instructorAuthorities);
+        given(authentication.getAuthorities()).willReturn(authorities);
         given(jwtProvider.createToken(authentication)).willReturn("token-456");
         given(instructorToInstructorDtoConverter.convert(instructor)).willReturn(instructorDto);
 
